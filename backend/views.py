@@ -5,6 +5,36 @@ from django.contrib.auth import authenticate, login
 from .models import FormRequest, IzinJam
 from .serializers import FormRequestSerializer, IzinJamSerializer
 
+class AdminDashboardView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request):
+        # Admin can see all forms
+        izin_jam_requests = IzinJam.objects.all().order_by('-created_at')
+        serializer = IzinJamSerializer(izin_jam_requests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        # Admin can approve or deny forms
+        try:
+            izin_jam = IzinJam.objects.get(pk=pk)
+            izin_jam.status = request.data.get('status')
+            izin_jam.save()
+            return Response({'message': 'Status updated successfully'}, status=status.HTTP_200_OK)
+        except IzinJam.DoesNotExist:
+            return Response({'error': 'Form not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UserDashboardView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # Users can see only their own forms
+        izin_jam_requests = IzinJam.objects.filter(user=request.user).order_by('-created_at')
+        serializer = IzinJamSerializer(izin_jam_requests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
