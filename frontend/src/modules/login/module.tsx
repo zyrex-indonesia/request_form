@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./login.css"; // Optional: If you want to add specific styling for the login module.
+import "../../styles/global.css"; // Optional: If you want to add specific styling for the login module.
 
-const Login: React.FC = () => {
+const LoginModule: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [batchId, setBatchId] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -66,4 +66,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginModule;

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, FormRequest
+from .models import User, FormRequest, IzinJam
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,3 +12,9 @@ class FormRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FormRequest
         fields = ['id', 'title', 'content', 'status', 'user']
+
+class IzinJamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IzinJam
+        fields = '__all__'
+        read_only_fields = ['user', 'created_at']

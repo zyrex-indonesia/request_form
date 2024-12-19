@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./modules/login";
+import Login from "./modules/login/module";
 import Dashboard from "./pages/dashboard"; // Replace with your actual Dashboard component
+import "./styles/global.css";
 
 const App: React.FC = () => {
   return (
