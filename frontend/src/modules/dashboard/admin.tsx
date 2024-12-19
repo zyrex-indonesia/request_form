@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import BaseLayout from "../../components/layout/base"
 import axios from "axios";
 
 const AdminDashboard: React.FC = () => {
@@ -47,6 +48,7 @@ const AdminDashboard: React.FC = () => {
   }
 
   return (
+    <BaseLayout>
     <div className="max-w-6xl mx-auto p-6 bg-gray-100">
       <h1 className="text-2xl font-bold mb-4 text-center">Admin Dashboard</h1>
       <table className="table-auto w-full border-collapse border border-gray-300">
@@ -85,7 +87,9 @@ const AdminDashboard: React.FC = () => {
         </tbody>
       </table>
     </div>
+    </BaseLayout>
   );
 };
+
 
 export default AdminDashboard;
