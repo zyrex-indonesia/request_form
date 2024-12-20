@@ -1,10 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# Custom User Model
 class User(AbstractUser):
-    username = models.CharField(max_length=100, unique=True)
-    batch_id = models.CharField(max_length=100, unique=True)
+    username = models.CharField(max_length=100, unique=True)  # Username remains unique
+    batch_id = models.CharField(max_length=100, unique=True)  # Batch ID is also unique
+    
+    def __str__(self):
+        return self.username
 
+
+# Profile Model (Optional, only if additional fields are required)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Link to User
+    additional_field = models.CharField(max_length=100, blank=True, null=True)  # Example of extra field
+    
+    def __str__(self):
+        return self.user.username
+
+    
 class FormRequest(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [batchId, setBatchId] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if a token exists in localStorage
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      // Redirect to dashboard if already authenticated
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

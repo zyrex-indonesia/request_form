@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from .models import User, FormRequest, IzinJam
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150)
+    batch_id = serializers.CharField(max_length=20)
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
