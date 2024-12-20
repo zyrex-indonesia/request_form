@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../../styles/global.css"; // Optional: If you want to add specific styling for the login module.
+import "../../styles/global.css";
 
 const LoginModule: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -14,54 +14,79 @@ const LoginModule: React.FC = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:8000/login/", {
+      const response = await axios.post("http://localhost:8000/login", {
         username,
         batch_id: batchId,
       });
 
       if (response.status === 200) {
-        // Navigate to the dashboard after successful login
         navigate("/dashboard");
+      } else {
+        setError("Invalid username or batch ID. Please try again.");
       }
-    } catch (err: any) {
+    } catch (err) {
       setError("Invalid username or batch ID. Please try again.");
     }
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-            required
+    <div className="flex items-center justify-center min-h-screen bg-red-700">
+      <div className="bg-white p-10 rounded-xl shadow-lg w-96">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <img
+            src="/ZYREX Logo Hi-res-01.png"
+            alt="Zyrex Logo"
+            className="mx-auto"
+            style={{ width: "100px", height: "auto" }}
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="batch_id">Batch ID</label>
-          <input
-            type="text"
-            id="batch_id"
-            value={batchId}
-            onChange={(e) => setBatchId(e.target.value)}
-            placeholder="Enter your Batch ID"
-            required
-          />
-        </div>
-
-        {error && <p className="error-message">{error}</p>}
-
-        <button type="submit" className="login-button">
-          Login
-        </button>
-      </form>
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="username" className="block text-sm font-semibold text-gray-700">
+              Username:
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+              className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="batchId" className="block text-sm font-semibold text-gray-700">
+              Odoo Batch ID:
+            </label>
+            <input
+              type="text"
+              id="batchId"
+              value={batchId}
+              onChange={(e) => setBatchId(e.target.value)}
+              placeholder="Enter your batch ID"
+              className="w-full mt-1 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
+            />
+          </div>
+          {error && (
+            <div className="text-red-600 text-sm mt-2">
+              <p>{error}</p>
+            </div>
+          )}
+          <div>
+            <button
+              type="submit"
+              className="w-full p-3 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 transition duration-200"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
