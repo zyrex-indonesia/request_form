@@ -1,8 +1,12 @@
-import React from 'react'; // Ensure React is imported correctly
-import LoginModule from '../../modules/login/module'; // Correct path for your module
+import React from "react";
+import LoginModule from "../../modules/login/module"; // Correct path for your module
 
-const LoginPage: React.FC = () => {
-  return <LoginModule />;
+interface LoginPageProps {
+  onLogin: () => void;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+  return <LoginModule onLogin={onLogin} />;
 };
 
 export default LoginPage;

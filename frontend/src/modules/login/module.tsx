@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../../styles/global.css";
 
-const LoginModule: React.FC = () => {
+interface LoginProps {
+  onLogin: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [username, setUsername] = useState<string>("");
   const [batchId, setBatchId] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -20,6 +23,8 @@ const LoginModule: React.FC = () => {
       });
 
       if (response.status === 200) {
+        localStorage.setItem("authToken", response.data.token); // Save token
+        onLogin(); // Notify App of successful login
         navigate("/dashboard");
       } else {
         setError("Invalid username or batch ID. Please try again.");
@@ -91,4 +96,4 @@ const LoginModule: React.FC = () => {
   );
 };
 
-export default LoginModule;
+export default Login;
